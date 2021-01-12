@@ -1,7 +1,17 @@
 package main
 
-import "fmt"
+import (
+	"log"
+
+	"microblogging/bd"
+	"microblogging/handlers"
+)
 
 func main() {
-	fmt.Println("test")
+	if bd.ChequeoConnection() == 0 {
+		log.Fatal("Sin conexión a la BD")
+		return
+	}
+	handlers.Manejadores()
+
 }
