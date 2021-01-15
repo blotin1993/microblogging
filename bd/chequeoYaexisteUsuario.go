@@ -13,7 +13,7 @@ import (
 func ChequeoYaExisteUsuario(email string) (models.Usuario, bool, string) {
 	//ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	ctx, _ := context.WithTimeout(context.Background(), 15*time.Second)
-	db := MongoCN.Database("microblog")
+	db := MongoCN.Database("microblogging")
 	col := db.Collection("usuarios")
 
 	// M es una función que formatea o mapea a bson lo que recibe como json
