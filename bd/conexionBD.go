@@ -3,6 +3,7 @@ package bd
 import (
 	"context"
 	"log"
+	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -15,12 +16,16 @@ var clientOptions = options.Client().ApplyURI("mongodb+srv://admin:opeZRi2jdKIBX
 /*ConectarBD es la función que me permite conectar a la base de datos
   Devuelve una conexión a la BD del tipo Mongo Client*/
 func ConectarBD() *mongo.Client {
-	client, err := mongo.Connect(context.TODO(), clientOptions)
+	//
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	client, err := mongo.Connect(ctx, clientOptions)
 	if err != nil {
 		log.Fatal(err.Error())
 		return client
 	}
-	err = client.Ping(context.TODO(), nil)
+	//defer client.Disconnect(ctx)
+	err = client.Ping(ctx, nil)
 	if err != nil {
 		log.Fatal(err.Error())
 		return client
