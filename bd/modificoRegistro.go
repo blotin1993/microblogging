@@ -2,7 +2,6 @@ package bd
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"microblogging/models"
@@ -50,13 +49,10 @@ func ModificoRegistro(u models.Usuario, ID string) (bool, error) {
 	updtString := bson.M{
 		"$set": registro,
 	}
-	fmt.Println(ID)
 
 	objID, _ := primitive.ObjectIDFromHex(ID)
 	// ahora tengo que realizar un filtro con el ID
 	filtro := bson.M{"_id": bson.M{"$eq": objID}}
-	fmt.Println(ID)
-	fmt.Println(filtro)
 	_, err := col.UpdateOne(ctx, filtro, updtString)
 	if err != nil {
 		return false, err

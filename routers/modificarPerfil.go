@@ -2,7 +2,6 @@ package routers
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"microblogging/bd"
@@ -23,7 +22,6 @@ func ModificarPerfil(w http.ResponseWriter, r *http.Request) {
 
 	var status bool
 
-	fmt.Println(IDUsuario)
 	status, err = bd.ModificoRegistro(usu, IDUsuario)
 	//IDUsuario es la variable global que seteamos antes con el ID
 	if err != nil {

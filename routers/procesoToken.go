@@ -2,7 +2,6 @@ package routers
 
 import (
 	"errors"
-	"fmt"
 	"strings"
 
 	"microblogging/bd"
@@ -36,20 +35,15 @@ func ProcesoToken(tk string) (*models.Claim, bool, string, error) {
 		// el error se crea con un mensaje que no puede tener ni mayúsculas, ni tildes, ni símbolos
 	}
 	tk = strings.TrimSpace(splitToken[1])
-	fmt.Println("estoy aca", tk)
 	tkn, err := jwt.ParseWithClaims(tk, claims, func(token *jwt.Token) (interface{}, error) {
 		// el tercer parámetro es una función anónima que recibe un token y resuleve todo ahí validando el token
 		return miClave, nil
 	})
-	fmt.Println("estoy aca", tkn)
 	if err == nil { // el token fue válido, hay que ver si el mail que viene en el token es válido
-		fmt.Println("estoy aca", claims)
 		_, encontrado, _ := bd.ChequeoYaExisteUsuario(claims.Email)
 		if encontrado == true {
 			Email = claims.Email
-			fmt.Println("Estoy aca ", claims.ID.Hex())
 			IDUsuario = claims.ID.Hex()
-			fmt.Println("Estoy aca ", IDUsuario)
 		}
 		return claims, encontrado, IDUsuario, nil
 	}
