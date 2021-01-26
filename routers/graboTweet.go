@@ -11,18 +11,16 @@ import (
 
 /*GraboTweet permite grabar el tweet en la BD */
 func GraboTweet(w http.ResponseWriter, r *http.Request) {
-	var mensaje models.Tweet
+	var tweet models.Tweet
 
 	// decodificamos el body y armamos un registro
-	err := json.NewDecoder(r.Body).Decode(&mensaje)
+	err := json.NewDecoder(r.Body).Decode(&tweet)
 
-	registro := models.GraboTweet{
-		UserID:  IDUsuario,
-		Mensaje: mensaje.Mensaje,
-		Fecha:   time.Now(),
-	}
+	//
+	tweet.UserID = IDUsuario
+	tweet.Fecha = time.Now()
 	// Para insertarlo en la base de datos necesitamos mapearlo a un bson
-	_, status, err := bd.InsertoTweet(registro)
+	_, status, err := bd.InsertoTweet(tweet)
 
 	//si hay un error
 	if err != nil {
