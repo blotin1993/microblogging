@@ -8,7 +8,7 @@ import (
 
 //ListarTweets .
 func ListarTweets(w http.ResponseWriter, r *http.Request) {
-	id := r.URL.Query().Get("id")
+	id := r.URL.Query().Get("userid")
 	if len(id) < 1 {
 		http.Error(w, "debe enviar el parámetro ID", http.StatusBadRequest)
 		return
