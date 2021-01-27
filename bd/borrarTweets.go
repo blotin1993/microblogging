@@ -2,7 +2,7 @@ package bd
 
 import (
 	"context"
-	"log"
+	"errors"
 	"time"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -10,7 +10,7 @@ import (
 )
 
 //BorrarTweet .
-func BorrarTweet(ID string) error {
+func BorrarTweet(ID, userid string) error {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
 	defer cancel()
@@ -20,16 +20,18 @@ func BorrarTweet(ID string) error {
 	objID, _ := primitive.ObjectIDFromHex(ID)
 
 	condicion := bson.M{
-		"_id": objID,
+		"_id":    objID,
+		"userid": userid,
 	}
 
 	// Pass these options to the Find method
 	//findOptions := options.Find()
 	//findOptions.SetLimit(2)
-	_, err := col.DeleteOne(ctx, condicion)
-	if err != nil {
-		log.Fatal(err)
+
+	result, err := col.DeleteOne(ctx, condicion)
+	if err != nil || result.DeletedCount == 0 {
+		err = errors.New("Ocurrió un error al intentar borrar el tweet")
 	}
 
-	return nil
+	return err
 }

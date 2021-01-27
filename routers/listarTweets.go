@@ -15,7 +15,7 @@ func ListarTweets(w http.ResponseWriter, r *http.Request) {
 	}
 	processedData, err := bd.BuscarTweets(id)
 	if err != nil {
-		http.Error(w, "Ocurrió un error al intentar listar los tweets "+err.Error(), 400)
+		http.Error(w, err.Error(), 400)
 		return
 	}
 	w.Header().Set("Content-Type", "application/json")

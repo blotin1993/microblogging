@@ -2,7 +2,7 @@ package bd
 
 import (
 	"context"
-	"log"
+	"errors"
 	"microblogging/models"
 	"time"
 
@@ -29,7 +29,7 @@ func BuscarTweets(ID string) ([]models.Tweet, error) {
 	//findOptions.SetLimit(2)
 	cur, err := col.Find(ctx, condicion)
 	if err != nil {
-		log.Fatal(err)
+		err = errors.New("Error al buscar los elementos")
 	}
 
 	for cur.Next(ctx) {
@@ -37,12 +37,12 @@ func BuscarTweets(ID string) ([]models.Tweet, error) {
 		var elem models.Tweet
 		err := cur.Decode(&elem)
 		if err != nil {
-			log.Fatal(err)
+			err = errors.New("Error al buscar los elementos")
 		}
 		tweets = append(tweets, elem)
 	}
 	// Close the cursor once finished
 	cur.Close(ctx)
 
-	return tweets, nil
+	return tweets, err
 }

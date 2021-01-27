@@ -12,9 +12,12 @@ func BorrarTweet(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "debe enviar el parámetro ID", http.StatusBadRequest)
 		return
 	}
-	err := bd.BorrarTweet(id)
+	err := bd.BorrarTweet(id, IDUsuario)
+
 	if err != nil {
-		http.Error(w, "Ocurrió un error al intentar borrar el tweet "+err.Error(), 400)
+		http.Error(w, err.Error(), 400)
 		return
 	}
+
+	w.WriteHeader(http.StatusOK)
 }
