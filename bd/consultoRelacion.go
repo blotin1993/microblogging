@@ -2,7 +2,6 @@ package bd
 
 import (
 	"context"
-	"fmt"
 	"time"
 
 	"microblogging/models"
@@ -25,7 +24,6 @@ func ConsultoRelacion(rel models.Relacion) (bool, error) {
 	var resultado models.Relacion
 	err := col.FindOne(ctx, condicion).Decode(&resultado)
 	if err != nil {
-		fmt.Println(err.Error())
 		return false, err
 	}
 	return true, nil
